@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>All Products – NEXUS GEAR</title>
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Orbitron:wght@700;900&family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    :root{--bg:#080b10;--surface:#0d1117;--card:#111820;--border:#1e2d3d;--accent:#00e5ff;--accent2:#ff3c6e;--gold:#ffc800;--text:#e8f0fe;--muted:#607080;--glow:0 0 24px rgba(0,229,255,0.35);}
+    body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;}
+    nav{position:fixed;top:0;width:100%;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 48px;height:64px;background:rgba(8,11,16,0.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);}
+    .logo{font-family:'Orbitron',sans-serif;font-size:1.4rem;font-weight:900;color:var(--accent);letter-spacing:3px;text-shadow:var(--glow);text-decoration:none;}
+    .nav-links{display:flex;gap:32px;list-style:none;}
+    .nav-links a{color:var(--muted);font-size:0.85rem;font-weight:500;text-decoration:none;letter-spacing:1px;text-transform:uppercase;transition:color 0.2s;}
+    .nav-links a:hover,.nav-links a.active{color:var(--accent);}
+    .nav-cart{background:var(--accent);color:#000;border:none;padding:8px 20px;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:1px;cursor:pointer;clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);}
+    .page-hero{padding:100px 48px 40px;background:linear-gradient(180deg,#0a1520 0%,var(--bg) 100%);border-bottom:1px solid var(--border);}
+    .page-hero h1{font-family:'Orbitron',sans-serif;font-size:2rem;font-weight:900;margin-bottom:6px;}
+    .page-hero h1 span{color:var(--accent);}
+    .page-hero p{color:var(--muted);font-size:0.9rem;}
+    .layout{display:flex;gap:32px;padding:40px 48px;}
+    .sidebar{width:220px;flex-shrink:0;}
+    .filter-title{font-family:'Rajdhani',sans-serif;font-weight:700;letter-spacing:2px;text-transform:uppercase;font-size:0.78rem;color:var(--muted);margin-bottom:10px;}
+    .filter-group{margin-bottom:24px;}
+    .filter-btn{display:block;width:100%;text-align:left;padding:9px 14px;background:var(--card);border:1px solid var(--border);color:var(--muted);font-family:'Rajdhani',sans-serif;font-weight:600;font-size:0.88rem;letter-spacing:1px;cursor:pointer;margin-bottom:5px;clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%);transition:all 0.2s;text-decoration:none;}
+    .filter-btn:hover,.filter-btn.active{border-color:var(--accent);color:var(--accent);background:rgba(0,229,255,0.05);}
+    .products-area{flex:1;}
+    .products-toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:12px;}
+    .results-count{color:var(--muted);font-size:0.85rem;}
+    .sort-select{background:var(--card);border:1px solid var(--border);color:var(--text);padding:8px 14px;font-family:'Inter',sans-serif;font-size:0.85rem;cursor:pointer;}
+    .product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:16px;}
+    .product-card{background:var(--card);border:1px solid var(--border);overflow:hidden;cursor:pointer;transition:all 0.25s;text-decoration:none;display:block;clip-path:polygon(0 0,calc(100% - 16px) 0,100% 16px,100% 100%,16px 100%,0 calc(100% - 16px));}
+    .product-card:hover{border-color:var(--accent);transform:translateY(-4px);box-shadow:0 8px 32px rgba(0,229,255,0.18);}
+    .product-img{height:140px;display:flex;align-items:center;justify-content:center;font-size:3.8rem;background:linear-gradient(135deg,#0d1a26,#0a1520);position:relative;}
+    .badge{position:absolute;top:8px;left:8px;color:#fff;font-size:0.58rem;font-weight:700;letter-spacing:1px;padding:3px 7px;text-transform:uppercase;}
+    .bg-hot{background:var(--accent2);}
+    .bg-gold{background:var(--gold);color:#000 !important;}
+    .bg-new{background:#7c3aed;}
+    .bg-sale{background:#ff3c6e;}
+    .product-info{padding:12px;}
+    .product-brand{font-size:0.62rem;color:var(--accent);letter-spacing:2px;text-transform:uppercase;margin-bottom:3px;}
+    .product-name{font-family:'Rajdhani',sans-serif;font-size:0.92rem;font-weight:700;color:var(--text);margin-bottom:5px;line-height:1.3;}
+    .stars{color:var(--gold);font-size:0.7rem;margin-bottom:8px;}
+    .product-footer{display:flex;align-items:center;justify-content:space-between;}
+    .price{font-family:'Orbitron',sans-serif;font-size:0.9rem;font-weight:700;color:var(--accent);}
+    .price-old{font-size:0.7rem;color:var(--muted);text-decoration:line-through;margin-right:3px;}
+    .add-btn{background:transparent;border:1px solid var(--accent);color:var(--accent);padding:5px 10px;cursor:pointer;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.7rem;letter-spacing:1px;transition:all 0.2s;clip-path:polygon(4px 0%,100% 0%,calc(100% - 4px) 100%,0% 100%);}
+    .add-btn:hover{background:var(--accent);color:#000;}
+    .section-anchor{padding-top:50px;margin-top:-10px;}
+    .cat-heading{font-family:'Orbitron',sans-serif;font-size:1rem;font-weight:700;letter-spacing:2px;margin:28px 0 14px;padding-bottom:10px;border-bottom:1px solid var(--border);}
+    .cat-heading span{color:var(--accent);}
+    footer{background:var(--surface);border-top:1px solid var(--border);padding:28px 48px;text-align:center;color:var(--muted);font-size:0.8rem;}
+    footer a{color:var(--accent);text-decoration:none;}
+    @media(max-width:768px){nav{padding:0 20px;}.nav-links{display:none;}.layout{flex-direction:column;padding:20px;}.sidebar{width:100%;}.page-hero{padding:90px 20px 28px;}}
+  </style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="logo">NEXUS⚡GEAR</a>
+  <ul class="nav-links">
+    <li><a href="products2.html" class="active">Products</a></li>
+    <li><a href="products2.html#mice">Mice</a></li>
+    <li><a href="products2.html#keyboards">Keyboards</a></li>
+    <li><a href="products2.html#headsets">Headsets</a></li>
+    <li><a href="about.html">About</a></li>
+  </ul>
+  <button class="nav-cart" onclick="location.href='cart.html'">🛒 CART (0)</button>
+</nav>
+
+<div class="page-hero">
+  <h1>ALL <span>PRODUCTS</span></h1>
+  <p>200+ pro-grade gaming products across 8 categories</p>
+</div>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="filter-group">
+      <div class="filter-title">Category</div>
+      <a href="#mice" class="filter-btn">🖱️ Gaming Mice</a>
+      <a href="#keyboards" class="filter-btn">⌨️ Keyboards</a>
+      <a href="#headsets" class="filter-btn">🎧 Headsets</a>
+      <a href="#monitors" class="filter-btn">🖥️ Monitors</a>
+      <a href="#chairs" class="filter-btn">🪑 Gaming Chairs</a>
+      <a href="#controllers" class="filter-btn">🎮 Controllers</a>
+      <a href="#mousepads" class="filter-btn">🟦 Mousepads</a>
+      <a href="#webcams" class="filter-btn">📷 Webcams</a>
+      <a href="#bundles" class="filter-btn">📦 Bundles</a>
+    </div>
+    <div class="filter-group">
+      <div class="filter-title">Price</div>
+      <button class="filter-btn">Under ₹2,000</button>
+      <button class="filter-btn">₹2,000 – ₹5,000</button>
+      <button class="filter-btn">₹5,000 – ₹15,000</button>
+      <button class="filter-btn">Above ₹15,000</button>
+    </div>
+    <div class="filter-group">
+      <div class="filter-title">Brand</div>
+      <button class="filter-btn">Nexus Pro</button>
+      <button class="filter-btn">SoundForge</button>
+      <button class="filter-btn">ViewForce</button>
+      <button class="filter-btn">KeyMaster</button>
+      <button class="filter-btn">ChairKing</button>
+      <button class="filter-btn">StreamCam</button>
+    </div>
+  </aside>
+
+  <div class="products-area">
+    <div class="products-toolbar">
+      <span class="results-count">Showing 200+ products across 8 categories</span>
+      <select class="sort-select">
+        <option>Sort: Featured</option>
+        <option>Price: Low to High</option>
+        <option>Price: High to Low</option>
+        <option>Best Rated</option>
+        <option>Newest</option>
+      </select>
+    </div>
+
+    <!-- ══ MICE ══ -->
+    <div id="mice" class="section-anchor">
+      <div class="cat-heading">🖱️ GAMING <span>MICE</span></div>
+      <div class="product-grid">
+        <a href="product-detail.html?id=1" class="product-card"><div class="product-img">🖱️<span class="badge bg-gold">BEST SELLER</span></div><div class="product-info"><div class="product-brand">Nexus Pro</div><div class="product-name">Phantom X Elite Wireless</div><div class="stars">★★★★★ <span style="color:var(--muted)">(2,841)</span></div><div class="product-footer"><div><span class="price-old">₹7,999</span><span class="price">₹5,499</span></div><button class="add-btn" onclick="event.preventDefault()">ADD</button></div></div></a>
+        <a href="product-detail.html?id=2" class="product-card"><div class="product-img">🖱️<span class="badge bg-new">NEW</span></div><div class="product-info"><div class="product-brand">Nexus Pro</div><div class="product-name">Shadow V2 Ultra Lightweight</div><div class="stars">★★★★★ <span style="color:var(--muted)">(562)</span></div><div class="product-footer"><div><span class="price">₹4,299</span></div><button class="add-btn" onclick="event.preventDefault()">ADD</button></div></div></a>
+        <a href="product-detail.html?id=3" class="product-card"><div class="product-img">🖱️</div><div class="product-info"><div class="product-brand">Nexus Pro</div><div class="product-name">Storm 8K Polling Wired Mouse</div><div class="stars">★★★★☆ <span style="color:var(--muted)">(321)</span></div><div class="product-footer"><div><span class="price">₹3,199</span></div><button class="add-btn" onclick="event.preventDefault()">ADD</button></div></div></a>
+        <a href="product-detail.html?id=4" class="product-card"><div class="product-img">🖱️<span class="badge bg-sale">SALE</span></div><div class="product-info"><div class="product-brand">Nexus Pro</div><div class="product-name">Viper Mini Compact Mouse</div><div class="stars">★★★★☆ <span style="color:var(--muted)">(890)</span></div><div class="product-footer"><div><span class="price-old">₹3,499</span><span class="price">₹2,199</span></div><button class="add-btn" onclick="event.preventDefault()">ADD</button></div></div></a>
+        <a href="product-detail.html?id=5" class="product-card"><div class="product-img">🖱️</div><div class="product-info"><div class="product-brand">Nexus Pro</div><div class="product-name">Orion RGB Ergonomic Mouse</div><div class="stars">★★★★★ <span style="color:var(--muted)">(441)</span></div><div class="product-footer"><div><span class="price">₹4,899</span></div><button class="add-btn" onclick="event.preventDefault()">ADD</button></div></div></a>
+        <a href="product-detail.html?id=6" class="product-card"><div class="product-img">🖱️<span class="badge bg-gold">TOP RATED</span></div><div class="product-info"><div class="product-brand">Nexus Pro</div><div class="product-name">Eclipse Pro Wireless 4KHz</div><div class="stars">★★★★★ <span style="color:var(--muted)">(1,102)</span></div><div class="product-footer"><div><span class="price">₹9,499</span></div><button class="add-btn" onclick="event.preventDefault()">ADD</button></div></div></a>
+      </div>
+    </div>
+
+    <!-- ══ KEYBOARDS ══ -->
+    <div id="keyboards" class="section-anchor">
+      <div class="cat-heading">⌨️ MECHANICAL <span>KEYBOARDS</span></div>
+      <div class="product-grid">
+        <a href="product-detail.html?id=10" class="product-card"><div class="product-img">⌨️<span class="badge bg-new">NEW</span></div><div class="product-info"><div class="product-brand">KeyMaster</div><div class="product-name">Apex TKL Mechanical RGB</div><div class="stars">★★★★★ <span style="color:var(--muted)">(1,204)</span></div><div class="product-footer"><div><span class="price">₹8,999</span></div><button class="add-btn" onclick="event.preventDefault()">ADD</button></div></div></a>
+        <a href="product-detail.html?id=11" class="product-card"><div class="product-img">⌨️<span class="badge bg-gold">TOP RATED</span></div><div class="product-info"><div class="product-brand">KeyMaster</div><div class="product-name">Eclipse 60% Wireless KB</div><div class="stars">★★★★★ <span style="color:var(--muted)">(889)</span></div><div class="product-footer"><div><span class="price-old">₹11,999</span><span class="price">₹9,499</span></div><button class="add-btn" onclick="event.preventDefault()">ADD</button></div></div></a>
+        <a href="product-detail.html?id=12" class="product-card"><div class="product-img">⌨️</div><div class="product-info"><div class="product-brand">KeyMaster</div><div class="product-name">Thunder Full-Size Linear</div><div class="stars">★★★★☆ <span style="color:var(--muted)">(445)</span></div><div class="product-footer"><div><span class="price">₹6,299</span></div><button class="add-btn" onclick="event.preventDefault()">ADD</button></div></div></a>
+        <a href="product-detail.html?id=13" class="product-card"><div class="product-img">⌨️<span class="badge bg-sale">SALE</span></div><div class="product-info"><div class="product-brand">KeyMaster</div><div class="product-name">Storm 65% Hot-Swap Board</div><div class="stars">★★★★☆ <span style="color:var(--muted)">(312)</span></div><div class="product-footer"><div><span class="price-old">₹7,499</span><span class="price">₹5,799</span></div><button class="add-btn" onclick="event.preventDefault()">ADD</button></div></div></a>
+        <a href="product-detail.html?id=14" class="product-card"><div class="product-img">⌨️</div><div class="product-info"><div class="product-brand">KeyMaster</div><div class="product-name">Ghost Clicky Tactile 75%</div><div class="stars">★★★★★ <span style="color:var(--muted)">(228)</span></div><div class="product-footer"><div><span class="price">₹7,999</span></div><button class="add-btn" onclick="event.preventDefault()">ADD</button></div></div></a>
+        <a href="product-detail.html?id=15" class="product-card"><div class="product-img">⌨️<span class="badge bg-new">NEW</span></div><div class="product-info"><div class="product-brand">KeyMaster</div><div class="product-name">Nova Macro Pad 12-Key RGB</div><div class="stars">★★★★☆ <span style="color:var(--muted)">(178)</span></div><div class="product-footer"><div><span class="price">₹2,499</span></div><button class="add-btn" onclick="event.preventDefault()">ADD</button></div></div></a>
+      </div>
+    </div>
+
+    <!-- ══ HEADSETS ══ -->
+    <div id="headsets" class="section-anchor">
+      <div class="cat-heading">🎧 GAMING <span>HEADSETS</span></div>
+      <div class="product-grid">
+        <a href="product-detail.html?id=20" class="product-card"><div class="product-img">🎧<span class="badge bg-hot">HOT</span></div><div class="product-info"><div class="product-brand">SoundForge</div><div class="product-name">Void 7.1 Surround Headset</div><div class="stars">★★★★☆ <span style="color:var(--muted)">(987)</span></div><div class="product-footer"><div><span class="price-old">₹6,499</span><span class="price">₹4,299</span></div><button class="add-btn" onclick="event.preventDefault()">ADD</button></div></div></a>
+        <a href="product-detail.html?id=21" class="product-card"><div class="product-img">🎧<span class="badge bg-new">NEW</span></div><div class="product-info"><div class="product-brand">SoundForge</div><div class="product-name">Pulse Pro Wireless ANC</div><div class="stars">★★★★★ <span style="color:var(--muted)">(432)</span></div><div class="product-footer"><div><span class="price">₹7,999</span></div><button class="add-btn" onclick="event.preventDefault()">ADD</button></div></div></a>
+        <a href="product-detail.html?id=22" class="product-card"><div class="product-img">🎧</div><div class="product-info"><div class="product-brand">SoundForge</div><div class="product-name">Echo Stereo Budget Headset</div><div class="stars">★★★★☆ <span style="color:var(--muted)">(1,203)</span></div><div class="product-footer"><div><span class="price">₹1,799</span></div><button class="add-btn" onclick="event.preventDefault()">ADD</button></div></div></a>
+        <a href="product-detail.html?id=23" class="product-card"><div class="product-img">🎧<span class="badge bg-gold">BEST SELLER</span></div><div class="product-info"><div class="product-brand">SoundForge</div><div class="product-name">Titan USB Noise-Cancel</div><div class="stars">★★★★★ <span style="color:var(--muted)">(654)</span></div><div class="product-footer"><div><span class="price">₹5,499</span></div><button class="add-btn" onclick="event.preventDefault()">ADD</button></div></div></a>
+        <a href="product-detail.html?id=24" class="product-card"><div class="product-img">🎧<span class="badge bg-sale">SALE</span></div><div class="product-info"><div class="product-brand">SoundForge</div><div class="product-name">Blaze Wired Over-Ear</div><div class="stars">★★★★☆ <span style="color:var(--muted)">(389)</span></div><div class="product-footer"><div><span class="price-old">₹3,499</span><span class="price">₹2,299</span></div><button class="add-btn" onclick="event.preventDefault()">ADD</button></div></div></a>
+      </div>
+    </div>
+
+    <!-- ══ MONITORS ══ -->
+    <div id="monitors" class="section-anchor">
+      <div class="cat-heading">🖥️ GAMING <span>MONITORS</span></div>
+      <div class="product-grid">
+        <a href="product-detail.html?id=30" class="product-card"><div class="product-img">🖥️<span class="badge bg-gold">EDITOR'S PICK</span></div><div class="product-info"><div class="product-brand">ViewForce</div><div class="product-name">Rift 27" 240Hz IPS Monitor</div><div class="stars">★★★★★ <span style="color:var(--muted)">(632)</span></div><div class="product-footer"><div><span class="price">₹32,999</span></div><button class="add-btn" onclick="event.preventDefault()">ADD</button></div></div></a>
+        <a href="product-detail.html?id=31" class="product-card"><div class="product-img">🖥️<span class="badge bg-sale">SALE</span></div><div class="product-info"><div class="product-brand">ViewForce</div><div class="product-name">Blade 24" 144Hz Curved</div><div class="stars">★★★★☆ <span style="color:var(--muted)">(401)</span></div><div class="product-footer"><div><span class="price-old">₹22,999</span><span class="price">₹18,499</span></div><button class="add-btn" onclick="event.preventDefault()">ADD</button></div></div></a>
+        <a href="product-detail.html?id=32" class="product-card"><div class="product-img">🖥️<span class="badge bg-new">NEW</span></div><div class="product-info"><div class="product-brand">ViewForce</div><div class="product-name">Nova 32" 4K 144Hz OLED</div><div class="stars">★★★★★ <span style="color:var(--muted)">(219)</span></div><div class="product-footer"><div><span class="price">₹54,999</span></div><button class="add-btn" onclick="event.preventDefault()">ADD</button></div></div></a>
+        <a href="product-detail.html?id=33" class="product-card"><div class="product-img">🖥️</div><div class="product-info"><div class="product-brand">ViewForce</div><div class="product-name">Storm 21.5" 165Hz Budget</div><div class="stars">★★★★☆ <span style="color:var(--muted)">(877)</span></div><div class="product-footer"><div><span class="price">₹11,999</span></div><button class="add-btn" onclick="event.preventDefault()">ADD</button></div></div></a>
+        <a href="product-detail.html?id=34" class="product-card"><div class="product-img">🖥️<span class="badge bg-gold">TOP RATED</span></div><div class="product-info"><div class="product-brand">ViewForce</div><div class="product-name">Ultra 34" Ultrawide 200Hz</div><div class="stars">★★★★★ <span style="color:var(--muted)">(344)</span></div><div class="product-footer"><div><span class="price">₹44,999</span></div><button class="add-btn" onclick="event.preventDefault()">ADD</button></div></div></a>
+      </div>
+    </div>
+
+    <!-- ══ CHAIRS ══ -->
+    <div id="chairs" class="section-anchor">
+      <div class="cat-heading">🪑 GAMING <span>CHAIRS</span></div>
+      <div class="product-grid">
+        <a href="product-detail.html?id=40" class="product-card"><div class="product-img">🪑<span class="badge bg-gold">BEST SELLER</span></div><div class="product-info"><div class="product-brand">ChairKing</div><div class="product-name">Throne X Pro Racing Chair</div><div class="stars">★★★★★ <span style="color:var(--muted)">(1,432)</span></div><div class="product-footer"><div><span class="price-old">₹24,999</span><span class="price">₹18,999</span></div><button class="add-btn" onclick="event.preventDefault()">ADD</button></div></div></a>
+        <a href="product-detail.html?id=41" class="product-card"><div class="product-img">🪑<span class="badge bg-new">NEW</span></div><div class="product-info"><div class="product-brand">ChairKing</div><div class="product-name">Apex Mesh Ergonomic Chair</div><div class="stars">★★★★★ <span style="color:var(--muted)">(678)</span></div><div class="product-footer"><div><span class="price">₹21,999</span></div><button class="add-btn" onclick="event.preventDefault()">ADD</button></div></div></a>
+        <a href="product-detail.html?id=42" class="product-card"><div class="product-img">🪑<span class="badge bg-sale">SALE</span></div><div class="product-info"><div class="product-brand">ChairKing</div><div class="product-name">Shadow Lite Compact Chair</div><div class="stars">★★★★☆ <span style="color:var(--muted)">(543)</span></div><div class="product-footer"><div><span class="price-old">₹14,999</span><span class="price">₹11,499</span></div><button class="add-btn" onclick="event.preventDefault()">ADD</button></div></div></a>
+        <a href="product-detail.html?id=43" class="product-card"><div class="product-img">🪑</div><div class="product-info"><div class="product-brand">ChairKing</div><div class="product-name">Elite 4D Armrest Lumbar</div><div class="stars">★★★★★ <span style="color:var(--muted)">(289)</span></div><div class="product-footer"><div><span class="price">₹28,999</span></div><button class="add-btn" onclick="event.preventDefault()">ADD</button></div></div></a>
+        <a href="product-detail.html?id=44" class="product-card"><div class="product-img">🪑<span class="badge bg-new">NEW</span></div><div class="product-info"><div class="product-brand">ChairKing</div><div class="product-name">Cloud XL Wide Gaming Chair</div><div class="stars">★★★★☆ <span style="color:var(--muted)">(201)</span></div><div class="product-footer"><div><span class="price">₹16,499</span></div><button class="add-btn" onclick="event.preventDefault()">ADD</button></div></div></a>
+        <a href="product-detail.html?id=45" class="product-card"><div class="product-img">🪑<span class="badge bg-gold">TOP RATED</span></div><div class="product-info"><div class="product-brand">ChairKing</div><div class="product-name">Stealth Black Edition Chair</div><div class="stars">★★★★★ <span style="color:var(--muted)">(912)</span></div><div class="product-footer"><div><span class="price-old">₹19,999</span><span class="price">₹15,999</span></div><button class="add-btn" onclick="event.preventDefault()">ADD</button></div></div></a>
+      </div>
+    </div>
+
+    <!-- ══ CONTROLLERS ══ -->
+    <div id="controllers" class="section-anchor">
+      <div class="cat-heading">🎮 GAME <span>CONTROLLERS</span></div>
+      <div class="product-grid">
+        <a href="product-detail.html?id=50" class="product-card"><div class="product-img">🎮<span class="badge bg-gold">BEST SELLER</span></div><div class="product-info"><div class="product-brand">Nexus Pro</div><div class="product-name">Phantom Pro Wireless Controller</div><div class="stars">★★★★★ <span style="color:var(--muted)">(2,109)</span></div><div class="product-footer"><div><span class="price">₹6,999</span></div><button class="add-btn" onclick="event.preventDefault()">ADD</button></div></div></a>
+        <a href="product-detail.html?id=51" class="product-card"><div class="product-img">🎮<span class="badge bg-new">NEW</span></div><div class="product-info"><div class="product-brand">Nexus Pro</div><div class="product-name">Storm Elite Hall Effect</div><div class="stars">★★★★★ <span style="color:var(--muted)">(441)</span></div><div class="product-footer"><div><span class="price">₹8,499</span></div><button class="add-btn" onclick="event.preventDefault()">ADD</button></div></div></a>
+        <a href="product-detail.html?id=52" class="product-card"><div class="product-img">🎮<span class="badge bg-sale">SALE</span></div><div class="product-info"><div class="product-brand">Nexus Pro</div><div class="product-name">Lite Budget Wired Controller</div><div class="stars">★★★★☆ <span style="color:var(--muted)">(1,876)</span></div><div class="product-footer"><div><span class="price-old">₹2,999</span><span class="price">₹1,899</span></div><button class="add-btn" onclick="event.preventDefault()">ADD</button></div></div></a>
+        <a href="product-detail.html?id=53" class="product-card"><div class="product-img">🎮</div><div class="product-info"><div class="product-brand">Nexus Pro</div><div class="product-name">Apex Turbo Fight Pad</div><div class="stars">★★★★☆ <span style="color:var(--muted)">(334)</span></div><div class="product-footer"><div><span class="price">₹4,499</span></div><button class="add-btn" onclick="event.preventDefault()">ADD</button></div></div></a>
+        <a href="product-detail.html?id=54" class="product-card"><div class="product-img">🎮<span class="badge bg-new">NEW</span></div><div class="product-info"><div class="product-brand">Nexus Pro</div><div class="product-name">Racing Wheel PC/PS5</div><div class="stars">★★★★★ <span style="color:var(--muted)">(198)</span></div><div class="product-footer"><div><span class="price">₹12,999</span></div><button class="add-btn" onclick="event.preventDefault()">ADD</button></div></div></a>
+      </div>
+    </div>
+
+    <!-- ══ MOUSEPADS ══ -->
+    <div id="mousepads" class="section-anchor">
+      <div class="cat-heading">🟦 GAMING <span>MOUSEPADS</span></div>
+      <div class="product-grid">
+        <a href="product-detail.html?id=60" class="product-card"><div class="product-img">🟦<span class="badge bg-gold">BEST SELLER</span></div><div class="product-info"><div class="product-brand">Nexus Pro</div><div class="product-name">XL Desk Mat RGB 900×400mm</div><div class="stars">★★★★★ <span style="color:var(--muted)">(3,211)</span></div><div class="product-footer"><div><span class="price">₹2,299</span></div><button class="add-btn" onclick="event.preventDefault()">ADD</button></div></div></a>
+        <a href="product-detail.html?id=61" class="product-card"><div class="product-img">🟦<span class="badge bg-new">NEW</span></div><div class="product-info"><div class="product-brand">Nexus Pro</div><div class="product-name">Speed Control Hard Pad</div><div class="stars">★★★★☆ <span style="color:var(--muted)">(876)</span></div><div class="product-footer"><div><span class="price">₹1,499</span></div><button class="add-btn" onclick="event.preventDefault()">ADD</button></div></div></a>
+        <a href="product-detail.html?id=62" class="product-card"><div class="product-img">🟦<span class="badge bg-sale">SALE</span></div><div class="product-info"><div class="product-brand">Nexus Pro</div><div class="product-name">Cloth Precision Mid-Size Pad</div><div class="stars">★★★★★ <span style="color:var(--muted)">(1,543)</span></div><div class="product-footer"><div><span class="price-old">₹1,299</span><span class="price">₹899</span></div><button class="add-btn" onclick="event.preventDefault()">ADD</button></div></div></a>
+        <a href="product-detail.html?id=63" class="product-card"><div class="product-img">🟦</div><div class="product-info"><div class="product-brand">Nexus Pro</div><div class="product-name">Wireless Charging Mousepad</div><div class="stars">★★★★★ <span style="color:var(--muted)">(432)</span></div><div class="product-footer"><div><span class="price">₹3,999</span></div><button class="add-btn" onclick="event.preventDefault()">ADD</button></div></div></a>
+      </div>
+    </div>
+
+    <!-- ══ WEBCAMS ══ -->
+    <div id="webcams" class="section-anchor">
+      <div class="cat-heading">📷 STREAMING <span>WEBCAMS</span></div>
+      <div class="product-grid">
+        <a href="product-detail.html?id=70" class="product-card"><div class="product-img">📷<span class="badge bg-gold">TOP RATED</span></div><div class="product-info"><div class="product-brand">StreamCam</div><div class="product-name">4K Ultra HD Streaming Webcam</div><div class="stars">★★★★★ <span style="color:var(--muted)">(1,021)</span></div><div class="product-footer"><div><span class="price">₹9,999</span></div><button class="add-btn" onclick="event.preventDefault()">ADD</button></div></div></a>
+        <a href="product-detail.html?id=71" class="product-card"><div class="product-img">📷<span class="badge bg-new">NEW</span></div><div class="product-info"><div class="product-brand">StreamCam</div><div class="product-name">1080p 60fps Auto-Focus Cam</div><div class="stars">★★★★★ <span style="color:var(--muted)">(654)</span></div><div class="product-footer"><div><span class="price">₹5,499</span></div><button class="add-btn" onclick="event.preventDefault()">ADD</button></div></div></a>
+        <a href="product-detail.html?id=72" class="product-card"><div class="product-img">📷<span class="badge bg-sale">SALE</span></div><div class="product-info"><div class="product-brand">StreamCam</div><div class="product-name">720p Budget Plug & Play</div><div class="stars">★★★★☆ <span style="color:var(--muted)">(2,341)</span></div><div class="product-footer"><div><span class="price-old">₹2,499</span><span class="price">₹1,499</span></div><button class="add-btn" onclick="event.preventDefault()">ADD</button></div></div></a>
+        <a href="product-detail.html?id=73" class="product-card"><div class="product-img">📷</div><div class="product-info"><div class="product-brand">StreamCam</div><div class="product-name">Ring Light Webcam Combo Kit</div><div class="stars">★★★★★ <span style="color:var(--muted)">(432)</span></div><div class="product-footer"><div><span class="price">₹6,999</span></div><button class="add-btn" onclick="event.preventDefault()">ADD</button></div></div></a>
+      </div>
+    </div>
+
+    <!-- ══ BUNDLES ══ -->
+    <div id="bundles" class="section-anchor">
+      <div class="cat-heading">📦 PRO <span>BUNDLES</span> — Save Up To 40%</div>
+      <div class="product-grid">
+        <a href="product-detail.html?id=80" class="product-card"><div class="product-img" style="font-size:2.4rem">🖱️⌨️🎧<span class="badge bg-gold">SAVE 40%</span></div><div class="product-info"><div class="product-brand">Nexus Pro</div><div class="product-name">Ultimate Trio — Mouse + KB + Headset</div><div class="stars">★★★★★ <span style="color:var(--muted)">(3,201)</span></div><div class="product-footer"><div><span class="price-old">₹21,797</span><span class="price">₹12,999</span></div><button class="add-btn" onclick="event.preventDefault()">ADD</button></div></div></a>
+        <a href="product-detail.html?id=81" class="product-card"><div class="product-img" style="font-size:2.4rem">🖱️⌨️<span class="badge">SAVE 30%</span></div><div class="product-info"><div class="product-brand">Nexus Pro</div><div class="product-name">Starter Duo — Mouse + Keyboard</div><div class="stars">★★★★★ <span style="color:var(--muted)">(1,890)</span></div><div class="product-footer"><div><span class="price-old">₹14,498</span><span class="price">₹9,999</span></div><button class="add-btn" onclick="event.preventDefault()">ADD</button></div></div></a>
+        <a href="product-detail.html?id=82" class="product-card"><div class="product-img" style="font-size:2.4rem">🪑🖥️<span class="badge bg-new">NEW</span></div><div class="product-info"><div class="product-brand">ChairKing × ViewForce</div><div class="product-name">Setup Bundle — Chair + Monitor</div><div class="stars">★★★★★ <span style="color:var(--muted)">(654)</span></div><div class="product-footer"><div><span class="price-old">₹50,998</span><span class="price">₹36,999</span></div><button class="add-btn" onclick="event.preventDefault()">ADD</button></div></div></a>
+        <a href="product-detail.html?id=83" class="product-card"><div class="product-img" style="font-size:1.9rem">🖱️⌨️🎧🖥️<span class="badge bg-gold">BEST VALUE</span></div><div class="product-info"><div class="product-brand">Nexus Pro</div><div class="product-name">Full Battlestation — All 4 Essentials</div><div class="stars">★★★★★ <span style="color:var(--muted)">(987)</span></div><div class="product-footer"><div><span class="price-old">₹63,496</span><span class="price">₹39,999</span></div><button class="add-btn" onclick="event.preventDefault()">ADD</button></div></div></a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer><p>© 2024 <a href="index.html">NEXUS⚡GEAR</a> — All Rights Reserved</p></footer>
+
+<script>
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>

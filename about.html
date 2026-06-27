@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About – NEXUS GEAR</title>
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Orbitron:wght@700;900&family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    :root{--bg:#080b10;--surface:#0d1117;--card:#111820;--border:#1e2d3d;--accent:#00e5ff;--accent2:#ff3c6e;--gold:#ffc800;--text:#e8f0fe;--muted:#607080;--glow:0 0 24px rgba(0,229,255,0.35);}
+    body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;}
+    nav{position:fixed;top:0;width:100%;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 48px;height:64px;background:rgba(8,11,16,0.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);}
+    .logo{font-family:'Orbitron',sans-serif;font-size:1.4rem;font-weight:900;color:var(--accent);letter-spacing:3px;text-shadow:var(--glow);text-decoration:none;}
+    .nav-links{display:flex;gap:32px;list-style:none;}
+    .nav-links a{color:var(--muted);font-size:0.85rem;font-weight:500;text-decoration:none;letter-spacing:1px;text-transform:uppercase;transition:color 0.2s;}
+    .nav-links a:hover,.nav-links a.active{color:var(--accent);}
+    .nav-cart{background:var(--accent);color:#000;border:none;padding:8px 20px;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:1px;cursor:pointer;clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);}
+
+    .hero{padding:140px 48px 80px;text-align:center;background:linear-gradient(180deg,#0a1520 0%,var(--bg) 100%);border-bottom:1px solid var(--border);}
+    .eyebrow{font-family:'Rajdhani',sans-serif;font-size:0.78rem;letter-spacing:4px;color:var(--accent);text-transform:uppercase;margin-bottom:16px;}
+    .hero h1{font-family:'Orbitron',sans-serif;font-size:clamp(2rem,5vw,4rem);font-weight:900;margin-bottom:20px;}
+    .hero h1 span{color:var(--accent);}
+    .hero p{color:var(--muted);font-size:1rem;max-width:560px;margin:0 auto;line-height:1.8;}
+
+    .section{padding:80px 48px;}
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;}
+    .big-num{font-family:'Orbitron',sans-serif;font-size:6rem;font-weight:900;color:var(--border);line-height:1;}
+    .big-num span{color:var(--accent);}
+    h2{font-family:'Orbitron',sans-serif;font-size:1.6rem;font-weight:700;margin-bottom:16px;letter-spacing:2px;}
+    h2 span{color:var(--accent);}
+    p.body{color:var(--muted);line-height:1.8;font-size:0.95rem;margin-bottom:16px;}
+
+    .values-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:20px;padding:0 48px 80px;}
+    .value-card{background:var(--card);border:1px solid var(--border);padding:28px;clip-path:polygon(0 0,calc(100% - 16px) 0,100% 16px,100% 100%,16px 100%,0 calc(100% - 16px));transition:border-color 0.2s;}
+    .value-card:hover{border-color:var(--accent);}
+    .val-icon{font-size:2rem;margin-bottom:12px;}
+    .val-title{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;}
+    .val-text{color:var(--muted);font-size:0.85rem;line-height:1.7;}
+
+    .team-section{padding:0 48px 80px;}
+    .team-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:20px;}
+    .team-card{background:var(--card);border:1px solid var(--border);padding:28px 20px;text-align:center;clip-path:polygon(0 0,calc(100% - 16px) 0,100% 16px,100% 100%,16px 100%,0 calc(100% - 16px));}
+    .team-avatar{font-size:3.5rem;margin-bottom:14px;}
+    .team-name{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;letter-spacing:1px;}
+    .team-role{font-size:0.75rem;color:var(--accent);letter-spacing:2px;text-transform:uppercase;margin-top:4px;}
+
+    .cta-section{margin:0 48px 80px;background:linear-gradient(120deg,#0a1f2e,#0d1117);border:1px solid var(--border);padding:56px;text-align:center;}
+    .cta-section h2{margin-bottom:12px;}
+    .cta-section p{color:var(--muted);margin-bottom:28px;}
+    .btn{background:var(--accent);color:#000;padding:14px 36px;border:none;cursor:pointer;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;letter-spacing:2px;text-transform:uppercase;clip-path:polygon(12px 0%,100% 0%,calc(100% - 12px) 100%,0% 100%);text-decoration:none;display:inline-block;transition:all 0.2s;}
+    .btn:hover{background:#fff;transform:translateY(-2px);}
+
+    footer{background:var(--surface);border-top:1px solid var(--border);padding:28px 48px;text-align:center;color:var(--muted);font-size:0.8rem;}
+    footer a{color:var(--accent);text-decoration:none;}
+
+    @media(max-width:768px){nav{padding:0 20px;}.nav-links{display:none;}.section,.values-grid,.team-section,.cta-section{padding-left:20px;padding-right:20px;}.two-col{grid-template-columns:1fr;}.cta-section{margin:0 20px 60px;}}
+  </style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="logo">NEXUS⚡GEAR</a>
+  <ul class="nav-links">
+    <li><a href="products2.html">Products</a></li>
+    <li><a href="products2.html#mice">Mice</a></li>
+    <li><a href="products2.html#keyboards">Keyboards</a></li>
+    <li><a href="products2.html#headsets">Headsets</a></li>
+    <li><a href="about.html" class="active">About</a></li>
+  </ul>
+  <button class="nav-cart" onclick="location.href='cart.html'">🛒 CART (0)</button>
+</nav>
+
+<div class="hero">
+  <p class="eyebrow">Our Story</p>
+  <h1>BUILT BY <span>GAMERS.</span><br>FOR GAMERS.</h1>
+  <p>We started in a dorm room with one idea: gaming gear shouldn't cost a fortune to feel elite. Today, 50,000+ pro players trust Nexus Gear.</p>
+</div>
+
+<section class="section">
+  <div class="two-col">
+    <div>
+      <div class="big-num">20<span>24</span></div>
+    </div>
+    <div>
+      <h2>OUR <span>MISSION</span></h2>
+      <p class="body">Every millisecond is a decision. We engineer peripherals that get out of your way — so your skill is the only variable. No lag, no gimmicks, no compromise.</p>
+      <p class="body">Founded in 2019 by two CS:GO players who were tired of paying premium prices for average gear, Nexus Gear was built on one principle: performance first, always.</p>
+    </div>
+  </div>
+</section>
+
+<div class="values-grid">
+  <div class="value-card"><div class="val-icon">⚡</div><div class="val-title">Performance First</div><div class="val-text">Every product ships only when it outperforms the competition in blind testing by our internal pro team.</div></div>
+  <div class="value-card"><div class="val-icon">💎</div><div class="val-title">Premium Quality</div><div class="val-text">We use only top-grade materials — PTFE feet, optical switches, and aerospace-grade plastics.</div></div>
+  <div class="value-card"><div class="val-icon">🔬</div><div class="val-title">Obsessive R&D</div><div class="val-text">Our lab runs 24/7 testing rigs that simulate 5 years of use on every batch before a product goes live.</div></div>
+  <div class="value-card"><div class="val-icon">🤝</div><div class="val-title">Community Driven</div><div class="val-text">Pro players and community members vote on every roadmap item. You tell us what you need next.</div></div>
+</div>
+
+<div class="team-section">
+  <h2 style="margin-bottom:28px;">THE <span>TEAM</span></h2>
+  <div class="team-grid">
+    <div class="team-card"><div class="team-avatar">👨‍💻</div><div class="team-name">Rahul Mehta</div><div class="team-role">Co-Founder & CEO</div></div>
+    <div class="team-card"><div class="team-avatar">👩‍🔬</div><div class="team-name">Priya Singh</div><div class="team-role">Head of R&D</div></div>
+    <div class="team-card"><div class="team-avatar">🎮</div><div class="team-name">Aryan Kapoor</div><div class="team-role">Pro Gaming Lead</div></div>
+    <div class="team-card"><div class="team-avatar">👨‍🎨</div><div class="team-name">Dev Patel</div><div class="team-role">Lead Designer</div></div>
+  </div>
+</div>
+
+<div class="cta-section">
+  <h2>READY TO <span>LEVEL UP?</span></h2>
+  <p>Browse our full lineup and find your perfect setup.</p>
+  <a href="products2.html" class="btn">SHOP ALL GEAR</a>
+</div>
+
+<footer><p>© 2024 <a href="index.html">NEXUS⚡GEAR</a> — All Rights Reserved</p></footer>
+</body>
+</html>

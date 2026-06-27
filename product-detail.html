@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Product – NEXUS GEAR</title>
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Orbitron:wght@700;900&family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:#080b10; --surface:#0d1117; --card:#111820; --border:#1e2d3d;
+      --accent:#00e5ff; --accent2:#ff3c6e; --gold:#ffc800;
+      --text:#e8f0fe; --muted:#607080;
+      --glow:0 0 24px rgba(0,229,255,0.35);
+    }
+    body { background:var(--bg); color:var(--text); font-family:'Inter',sans-serif; }
+
+    nav {
+      position:fixed; top:0; width:100%; z-index:100;
+      display:flex; align-items:center; justify-content:space-between;
+      padding:0 48px; height:64px;
+      background:rgba(8,11,16,0.85); backdrop-filter:blur(12px);
+      border-bottom:1px solid var(--border);
+    }
+    .logo { font-family:'Orbitron',sans-serif; font-size:1.4rem; font-weight:900; color:var(--accent); letter-spacing:3px; text-shadow:var(--glow); text-decoration:none; }
+    .nav-links { display:flex; gap:32px; list-style:none; }
+    .nav-links a { color:var(--muted); font-size:0.85rem; font-weight:500; text-decoration:none; letter-spacing:1px; text-transform:uppercase; transition:color 0.2s; }
+    .nav-links a:hover { color:var(--accent); }
+    .nav-cart { background:var(--accent); color:#000; border:none; padding:8px 20px; font-family:'Rajdhani',sans-serif; font-weight:700; font-size:0.9rem; letter-spacing:1px; cursor:pointer; clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%); }
+
+    .breadcrumb { padding:90px 48px 0; font-size:0.8rem; color:var(--muted); }
+    .breadcrumb a { color:var(--accent); text-decoration:none; }
+    .breadcrumb span { margin:0 8px; }
+
+    .product-main {
+      display:grid; grid-template-columns:1fr 1fr; gap:56px;
+      padding:40px 48px 80px; max-width:1200px;
+    }
+
+    /* IMAGE AREA */
+    .product-display {
+      background:linear-gradient(135deg,#0d1a26,#0a1520);
+      border:1px solid var(--border);
+      display:flex; align-items:center; justify-content:center;
+      font-size:10rem; min-height:420px;
+      clip-path:polygon(0 0,calc(100% - 32px) 0,100% 32px,100% 100%,32px 100%,0 calc(100% - 32px));
+      position:relative;
+    }
+    .img-thumbs { display:flex; gap:10px; margin-top:14px; }
+    .thumb {
+      width:72px; height:72px; background:var(--card); border:1px solid var(--border);
+      display:flex; align-items:center; justify-content:center; font-size:1.8rem;
+      cursor:pointer; transition:border-color 0.2s; flex-shrink:0;
+    }
+    .thumb:hover, .thumb.active { border-color:var(--accent); }
+
+    /* INFO AREA */
+    .product-info { padding-top:8px; }
+    .product-badge { display:inline-block; background:var(--accent2); color:#fff; font-size:0.65rem; font-weight:700; letter-spacing:2px; padding:4px 10px; text-transform:uppercase; margin-bottom:14px; }
+    .product-badge-gold { background:var(--gold); color:#000; }
+    .product-brand { font-size:0.75rem; color:var(--accent); letter-spacing:3px; text-transform:uppercase; margin-bottom:8px; }
+    .product-title { font-family:'Orbitron',sans-serif; font-size:1.7rem; font-weight:900; line-height:1.2; margin-bottom:16px; }
+    .stars-row { display:flex; align-items:center; gap:10px; margin-bottom:20px; }
+    .stars { color:var(--gold); font-size:1rem; }
+    .review-count { color:var(--muted); font-size:0.85rem; }
+    .price-row { display:flex; align-items:baseline; gap:12px; margin-bottom:24px; }
+    .price-main { font-family:'Orbitron',sans-serif; font-size:2rem; font-weight:700; color:var(--accent); }
+    .price-old { font-size:1rem; color:var(--muted); text-decoration:line-through; }
+    .price-save { font-size:0.8rem; background:rgba(255,60,110,0.15); color:var(--accent2); padding:3px 8px; font-weight:600; }
+
+    .divider { border:none; border-top:1px solid var(--border); margin:20px 0; }
+
+    .specs-mini { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:28px; }
+    .spec-item { background:var(--card); border:1px solid var(--border); padding:10px 14px; }
+    .spec-label { font-size:0.65rem; color:var(--muted); letter-spacing:2px; text-transform:uppercase; margin-bottom:4px; }
+    .spec-val { font-family:'Rajdhani',sans-serif; font-size:0.95rem; font-weight:700; color:var(--text); }
+
+    .qty-row { display:flex; align-items:center; gap:16px; margin-bottom:20px; }
+    .qty-label { font-size:0.8rem; color:var(--muted); letter-spacing:1px; text-transform:uppercase; }
+    .qty-ctrl { display:flex; align-items:center; gap:0; }
+    .qty-btn { width:36px; height:36px; background:var(--card); border:1px solid var(--border); color:var(--text); font-size:1.1rem; cursor:pointer; transition:all 0.2s; }
+    .qty-btn:hover { border-color:var(--accent); color:var(--accent); }
+    .qty-num { width:44px; height:36px; background:var(--surface); border-top:1px solid var(--border); border-bottom:1px solid var(--border); border-left:none; border-right:none; color:var(--text); font-family:'Rajdhani',sans-serif; font-weight:700; font-size:1rem; text-align:center; }
+
+    .btn-add {
+      width:100%; padding:16px; background:var(--accent); color:#000; border:none; cursor:pointer;
+      font-family:'Orbitron',sans-serif; font-weight:700; font-size:1rem; letter-spacing:3px;
+      text-transform:uppercase; margin-bottom:12px;
+      clip-path:polygon(12px 0%,100% 0%,calc(100% - 12px) 100%,0% 100%);
+      transition:all 0.2s;
+    }
+    .btn-add:hover { background:#fff; transform:translateY(-2px); }
+    .btn-wishlist {
+      width:100%; padding:15px; background:transparent; color:var(--accent); border:1px solid var(--accent); cursor:pointer;
+      font-family:'Rajdhani',sans-serif; font-weight:700; font-size:0.95rem; letter-spacing:2px;
+      text-transform:uppercase;
+      clip-path:polygon(12px 0%,100% 0%,calc(100% - 12px) 100%,0% 100%);
+      transition:all 0.2s;
+    }
+    .btn-wishlist:hover { background:rgba(0,229,255,0.08); }
+
+    .perks { display:flex; gap:24px; margin-top:20px; flex-wrap:wrap; }
+    .perk { font-size:0.78rem; color:var(--muted); display:flex; align-items:center; gap:6px; }
+    .perk span:first-child { color:var(--accent); font-size:1rem; }
+
+    /* TABS */
+    .tabs-section { padding:0 48px 80px; max-width:1200px; }
+    .tabs { display:flex; gap:0; border-bottom:1px solid var(--border); margin-bottom:32px; }
+    .tab-btn {
+      padding:14px 28px; background:transparent; border:none; border-bottom:2px solid transparent;
+      color:var(--muted); font-family:'Rajdhani',sans-serif; font-weight:700; font-size:0.95rem;
+      letter-spacing:1px; text-transform:uppercase; cursor:pointer; transition:all 0.2s;
+    }
+    .tab-btn:hover { color:var(--text); }
+    .tab-btn.active { color:var(--accent); border-bottom-color:var(--accent); }
+    .tab-content { display:none; }
+    .tab-content.active { display:block; }
+
+    .specs-full { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    .spec-row { display:flex; justify-content:space-between; padding:12px 16px; background:var(--card); border:1px solid var(--border); font-size:0.85rem; }
+    .spec-row-label { color:var(--muted); }
+    .spec-row-val { color:var(--text); font-weight:600; }
+
+    .review-card { background:var(--card); border:1px solid var(--border); padding:20px; margin-bottom:14px; }
+    .review-header { display:flex; justify-content:space-between; margin-bottom:8px; }
+    .reviewer { font-family:'Rajdhani',sans-serif; font-weight:700; font-size:0.95rem; }
+    .review-date { color:var(--muted); font-size:0.78rem; }
+    .review-stars { color:var(--gold); font-size:0.85rem; margin-bottom:8px; }
+    .review-text { color:var(--muted); font-size:0.88rem; line-height:1.7; }
+
+    footer { background:var(--surface); border-top:1px solid var(--border); padding:28px 48px; text-align:center; color:var(--muted); font-size:0.8rem; }
+    footer a { color:var(--accent); text-decoration:none; }
+
+    @media(max-width:768px) {
+      nav{padding:0 20px;} .nav-links{display:none;}
+      .product-main{grid-template-columns:1fr; padding:20px;}
+      .breadcrumb{padding:90px 20px 0;}
+      .tabs-section{padding:0 20px 60px;}
+      .specs-full{grid-template-columns:1fr;}
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">NEXUS⚡GEAR</a>
+  <ul class="nav-links">
+    <li><a href="products2.html">Products</a></li>
+    <li><a href="products2.html#mice">Mice</a></li>
+    <li><a href="products2.html#keyboards">Keyboards</a></li>
+    <li><a href="products2.html#headsets">Headsets</a></li>
+    <li><a href="about.html">About</a></li>
+  </ul>
+  <button class="nav-cart" onclick="location.href='cart.html'">🛒 CART (<span id="cart-count">0</span>)</button>
+</nav>
+
+<div class="breadcrumb">
+  <a href="index.html">Home</a><span>›</span>
+  <a href="products2.html">Products</a><span>›</span>
+  <a href="products2.html#mice">Gaming Mice</a><span>›</span>
+  Phantom X Elite Wireless
+</div>
+
+<div class="product-main">
+  <!-- LEFT: Image -->
+  <div>
+    <div class="product-display" id="main-img">🖱️</div>
+    <div class="img-thumbs">
+      <div class="thumb active" onclick="setThumb(this,'🖱️')">🖱️</div>
+      <div class="thumb" onclick="setThumb(this,'⚡')">⚡</div>
+      <div class="thumb" onclick="setThumb(this,'🔵')">🔵</div>
+      <div class="thumb" onclick="setThumb(this,'🎯')">🎯</div>
+    </div>
+  </div>
+
+  <!-- RIGHT: Info -->
+  <div class="product-info">
+    <span class="product-badge product-badge-gold">BEST SELLER</span>
+    <div class="product-brand">Nexus Pro</div>
+    <h1 class="product-title">Phantom X Elite<br>Wireless Mouse</h1>
+
+    <div class="stars-row">
+      <div class="stars">★★★★★</div>
+      <span class="review-count">2,841 reviews</span>
+    </div>
+
+    <div class="price-row">
+      <span class="price-old">₹7,999</span>
+      <span class="price-main">₹5,499</span>
+      <span class="price-save">SAVE ₹2,500</span>
+    </div>
+
+    <hr class="divider"/>
+
+    <div class="specs-mini">
+      <div class="spec-item"><div class="spec-label">DPI</div><div class="spec-val">100 – 26,000</div></div>
+      <div class="spec-item"><div class="spec-label">Weight</div><div class="spec-val">61g Ultra-Light</div></div>
+      <div class="spec-item"><div class="spec-label">Battery</div><div class="spec-val">70 Hours</div></div>
+      <div class="spec-item"><div class="spec-label">Polling Rate</div><div class="spec-val">1000Hz</div></div>
+    </div>
+
+    <div class="qty-row">
+      <span class="qty-label">Qty</span>
+      <div class="qty-ctrl">
+        <button class="qty-btn" onclick="changeQty(-1)">−</button>
+        <input class="qty-num" id="qty" type="text" value="1" readonly/>
+        <button class="qty-btn" onclick="changeQty(1)">+</button>
+      </div>
+    </div>
+
+    <button class="btn-add" onclick="addToCart()">ADD TO CART</button>
+    <button class="btn-wishlist">♡ &nbsp; ADD TO WISHLIST</button>
+
+    <div class="perks">
+      <div class="perk"><span>🚚</span> Free shipping over ₹2,000</div>
+      <div class="perk"><span>🔄</span> 30-day returns</div>
+      <div class="perk"><span>🛡️</span> 2-year warranty</div>
+    </div>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs-section">
+  <div class="tabs">
+    <button class="tab-btn active" onclick="showTab('specs')">Specifications</button>
+    <button class="tab-btn" onclick="showTab('reviews')">Reviews (2,841)</button>
+    <button class="tab-btn" onclick="showTab('desc')">Description</button>
+  </div>
+
+  <div id="tab-specs" class="tab-content active">
+    <div class="specs-full">
+      <div class="spec-row"><span class="spec-row-label">Sensor</span><span class="spec-row-val">Nexus Optical V3</span></div>
+      <div class="spec-row"><span class="spec-row-label">DPI Range</span><span class="spec-row-val">100 – 26,000</span></div>
+      <div class="spec-row"><span class="spec-row-label">Polling Rate</span><span class="spec-row-val">1000Hz</span></div>
+      <div class="spec-row"><span class="spec-row-label">Weight</span><span class="spec-row-val">61g</span></div>
+      <div class="spec-row"><span class="spec-row-label">Connection</span><span class="spec-row-val">2.4GHz Wireless + USB-C</span></div>
+      <div class="spec-row"><span class="spec-row-label">Battery Life</span><span class="spec-row-val">70 Hours</span></div>
+      <div class="spec-row"><span class="spec-row-label">Buttons</span><span class="spec-row-val">6 Programmable</span></div>
+      <div class="spec-row"><span class="spec-row-label">RGB</span><span class="spec-row-val">Yes – 16.8M Colors</span></div>
+      <div class="spec-row"><span class="spec-row-label">Switches</span><span class="spec-row-val">Optical 60M Clicks</span></div>
+      <div class="spec-row"><span class="spec-row-label">Feet</span><span class="spec-row-val">PTFE 100% Virgin</span></div>
+    </div>
+  </div>
+
+  <div id="tab-reviews" class="tab-content">
+    <div class="review-card">
+      <div class="review-header"><span class="reviewer">ProGamer_Arjun</span><span class="review-date">June 2024</span></div>
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">Absolute beast of a mouse. The 61g weight is incredible and you barely feel it on the pad. Battery lasts forever. Upgraded from a wired mouse and will never go back.</p>
+    </div>
+    <div class="review-card">
+      <div class="review-header"><span class="reviewer">Shruti_FPS</span><span class="review-date">May 2024</span></div>
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">The sensor tracks perfectly even on cloth pads at max DPI. Build quality is premium. The side buttons are tactile and perfectly placed. 100% recommend!</p>
+    </div>
+    <div class="review-card">
+      <div class="review-header"><span class="reviewer">TechReviewer_Delhi</span><span class="review-date">April 2024</span></div>
+      <div class="review-stars">★★★★☆</div>
+      <p class="review-text">Great mouse overall. Only reason for 4 stars is the software could be a bit more polished. The hardware itself is flawless.</p>
+    </div>
+  </div>
+
+  <div id="tab-desc" class="tab-content">
+    <p style="color:var(--muted);line-height:1.9;max-width:640px;">
+      The Phantom X Elite is our flagship wireless gaming mouse, engineered for competitive play at the highest level. Built around the Nexus Optical V3 sensor with zero smoothing, filtering, or acceleration, it delivers pixel-perfect tracking in every scenario.<br><br>
+      At just 61 grams with a honeycomb shell, it disappears in your hand during long sessions. The 70-hour battery means you'll never hit a dead mouse in the middle of a match. Optical switches rated to 60 million clicks ensure consistent feel from your first click to your millionth.<br><br>
+      Whether you're a CS2 rifler who needs sub-pixel accuracy or a MOBA player who demands reliable side-button placement, the Phantom X Elite delivers.
+    </p>
+  </div>
+</div>
+
+<footer>
+  <p>© 2024 <a href="index.html">NEXUS⚡GEAR</a> — All Rights Reserved</p>
+</footer>
+
+<script>
+  function showTab(name) {
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + name).classList.add('active');
+    event.target.classList.add('active');
+  }
+
+  function setThumb(el, emoji) {
+    document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+    document.getElementById('main-img').textContent = emoji;
+  }
+
+  let qty = 1;
+  function changeQty(delta) {
+    qty = Math.max(1, qty + delta);
+    document.getElementById('qty').value = qty;
+  }
+
+  let cartCount = 0;
+  function addToCart() {
+    cartCount += qty;
+    document.getElementById('cart-count').textContent = cartCount;
+    const btn = document.querySelector('.btn-add');
+    btn.textContent = '✓ ADDED TO CART!';
+    btn.style.background = '#00ff88';
+    setTimeout(() => {
+      btn.textContent = 'ADD TO CART';
+      btn.style.background = '';
+    }, 2000);
+  }
+</script>
+</body>
+</html>

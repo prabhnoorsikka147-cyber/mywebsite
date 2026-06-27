@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NEXUS GEAR – Elite Gaming Equipment</title>
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Orbitron:wght@700;900&family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #080b10;
+      --surface:  #0d1117;
+      --card:     #111820;
+      --border:   #1e2d3d;
+      --accent:   #00e5ff;
+      --accent2:  #ff3c6e;
+      --gold:     #ffc800;
+      --text:     #e8f0fe;
+      --muted:    #607080;
+      --glow:     0 0 24px rgba(0,229,255,0.35);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 48px;
+      height: 64px;
+      background: rgba(8,11,16,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .logo {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.4rem; font-weight: 900;
+      color: var(--accent);
+      letter-spacing: 3px;
+      text-shadow: var(--glow);
+      text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a {
+      color: var(--muted); font-size: 0.85rem; font-weight: 500;
+      text-decoration: none; letter-spacing: 1px; text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+    .nav-cart {
+      background: var(--accent); color: #000;
+      border: none; padding: 8px 20px;
+      font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 0.9rem;
+      letter-spacing: 1px; cursor: pointer;
+      clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+      transition: background 0.2s;
+    }
+    .nav-cart:hover { background: #fff; }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      padding: 100px 24px 60px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 40%, rgba(0,229,255,0.07) 0%, transparent 70%),
+                  radial-gradient(ellipse 60% 40% at 80% 80%, rgba(255,60,110,0.06) 0%, transparent 70%);
+    }
+    .hero-eyebrow {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.8rem; font-weight: 600; letter-spacing: 4px;
+      color: var(--accent); text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(2.8rem, 7vw, 6rem);
+      font-weight: 900; line-height: 1.0;
+      letter-spacing: 2px;
+      margin-bottom: 24px;
+    }
+    .hero h1 span { color: var(--accent); text-shadow: var(--glow); }
+    .hero p {
+      font-size: 1.1rem; color: var(--muted); max-width: 520px;
+      line-height: 1.7; margin-bottom: 40px;
+    }
+    .hero-cta {
+      display: flex; gap: 16px; flex-wrap: wrap; justify-content: center;
+    }
+    .btn-primary {
+      background: var(--accent); color: #000;
+      padding: 14px 36px; border: none; cursor: pointer;
+      font-family: 'Rajdhani', sans-serif; font-weight: 700;
+      font-size: 1rem; letter-spacing: 2px; text-transform: uppercase;
+      clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
+      transition: all 0.25s; text-decoration: none; display: inline-block;
+    }
+    .btn-primary:hover { background: #fff; transform: translateY(-2px); }
+    .btn-ghost {
+      background: transparent; color: var(--accent);
+      padding: 13px 36px; border: 1px solid var(--accent); cursor: pointer;
+      font-family: 'Rajdhani', sans-serif; font-weight: 700;
+      font-size: 1rem; letter-spacing: 2px; text-transform: uppercase;
+      clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
+      transition: all 0.25s; text-decoration: none; display: inline-block;
+    }
+    .btn-ghost:hover { background: rgba(0,229,255,0.1); transform: translateY(-2px); }
+
+    /* ── STATS ── */
+    .stats {
+      display: flex; justify-content: center; gap: 64px;
+      padding: 32px 48px;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+      flex-wrap: wrap;
+    }
+    .stat { text-align: center; }
+    .stat-num {
+      font-family: 'Orbitron', sans-serif; font-size: 2rem; font-weight: 700;
+      color: var(--accent);
+    }
+    .stat-label { font-size: 0.75rem; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; margin-top: 4px; }
+
+    /* ── SECTION TITLE ── */
+    .section { padding: 80px 48px; }
+    .section-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.6rem; font-weight: 700;
+      letter-spacing: 2px; margin-bottom: 8px;
+    }
+    .section-title span { color: var(--accent); }
+    .section-sub { color: var(--muted); font-size: 0.9rem; margin-bottom: 48px; }
+
+    /* ── CATEGORY CARDS ── */
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 20px;
+    }
+    .category-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 32px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.25s;
+      text-decoration: none;
+      display: flex; flex-direction: column; align-items: center; gap: 12px;
+      position: relative; overflow: hidden;
+      clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));
+    }
+    .category-card::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(0,229,255,0.06) 0%, transparent 60%);
+      opacity: 0; transition: opacity 0.25s;
+    }
+    .category-card:hover { border-color: var(--accent); transform: translateY(-4px); box-shadow: var(--glow); }
+    .category-card:hover::before { opacity: 1; }
+    .cat-icon { font-size: 2.6rem; }
+    .cat-name {
+      font-family: 'Rajdhani', sans-serif; font-size: 1rem; font-weight: 700;
+      letter-spacing: 2px; text-transform: uppercase; color: var(--text);
+    }
+    .cat-count { font-size: 0.75rem; color: var(--muted); }
+
+    /* ── FEATURED PRODUCTS ── */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 24px;
+    }
+    .product-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.25s;
+      text-decoration: none;
+      display: block;
+      clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
+    }
+    .product-card:hover { border-color: var(--accent); transform: translateY(-6px); box-shadow: 0 12px 40px rgba(0,229,255,0.2); }
+    .product-img {
+      height: 180px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 5rem;
+      background: linear-gradient(135deg, #0d1a26 0%, #0a1520 100%);
+      position: relative;
+    }
+    .badge {
+      position: absolute; top: 12px; left: 12px;
+      background: var(--accent2); color: #fff;
+      font-size: 0.65rem; font-weight: 700; letter-spacing: 1px;
+      padding: 3px 8px; text-transform: uppercase;
+    }
+    .badge-gold { background: var(--gold); color: #000; }
+    .product-info { padding: 20px; }
+    .product-brand { font-size: 0.7rem; color: var(--accent); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px; }
+    .product-name {
+      font-family: 'Rajdhani', sans-serif; font-size: 1.15rem; font-weight: 700;
+      color: var(--text); margin-bottom: 8px; line-height: 1.3;
+    }
+    .stars { color: var(--gold); font-size: 0.8rem; margin-bottom: 12px; }
+    .product-footer { display: flex; align-items: center; justify-content: space-between; }
+    .price {
+      font-family: 'Orbitron', sans-serif; font-size: 1.1rem; font-weight: 700;
+      color: var(--accent);
+    }
+    .price-old { font-size: 0.8rem; color: var(--muted); text-decoration: line-through; margin-right: 6px; }
+    .add-btn {
+      background: transparent; border: 1px solid var(--accent); color: var(--accent);
+      padding: 7px 16px; cursor: pointer;
+      font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 0.8rem;
+      letter-spacing: 1px; transition: all 0.2s;
+      clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+    }
+    .add-btn:hover { background: var(--accent); color: #000; }
+
+    /* ── BANNER ── */
+    .banner {
+      margin: 0 48px;
+      background: linear-gradient(120deg, #0a1f2e 0%, #0d1117 50%, #1a0a1a 100%);
+      border: 1px solid var(--border);
+      padding: 56px 64px;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 32px; flex-wrap: wrap;
+      position: relative; overflow: hidden;
+    }
+    .banner::before {
+      content: '';
+      position: absolute; right: -60px; top: -60px;
+      width: 280px; height: 280px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,60,110,0.15) 0%, transparent 70%);
+    }
+    .banner-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(1.4rem, 3vw, 2.2rem); font-weight: 900;
+      line-height: 1.2; margin-bottom: 12px;
+    }
+    .banner-title span { color: var(--accent2); }
+    .banner p { color: var(--muted); max-width: 440px; line-height: 1.6; }
+
+    /* ── FOOTER ── */
+    footer {
+      margin-top: 80px;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 48px;
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px;
+    }
+    .footer-brand .logo { font-size: 1.1rem; display: inline-block; margin-bottom: 12px; }
+    .footer-brand p { color: var(--muted); font-size: 0.85rem; line-height: 1.7; }
+    .footer-col h4 {
+      font-family: 'Rajdhani', sans-serif; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; font-size: 0.85rem; margin-bottom: 16px; color: var(--text);
+    }
+    .footer-col a {
+      display: block; color: var(--muted); text-decoration: none;
+      font-size: 0.85rem; margin-bottom: 10px; transition: color 0.2s;
+    }
+    .footer-col a:hover { color: var(--accent); }
+    .footer-bottom {
+      text-align: center; padding: 20px 48px;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      color: var(--muted); font-size: 0.78rem; letter-spacing: 1px;
+    }
+
+    /* ── SCAN LINE EFFECT ── */
+    body::after {
+      content: '';
+      position: fixed; inset: 0; pointer-events: none; z-index: 9999;
+      background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
+    }
+
+    @media (max-width: 768px) {
+      nav { padding: 0 20px; }
+      .nav-links { display: none; }
+      .section { padding: 60px 20px; }
+      .stats { gap: 32px; padding: 32px 20px; }
+      .banner { margin: 0 20px; padding: 40px 28px; }
+      footer { grid-template-columns: 1fr 1fr; padding: 40px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="logo">NEXUS⚡GEAR</a>
+  <ul class="nav-links">
+    <li><a href="products2.html">Products</a></li>
+    <li><a href="products2.html#mice">Mice</a></li>
+    <li><a href="products2.html#keyboards">Keyboards</a></li>
+    <li><a href="products2.html#headsets">Headsets</a></li>
+    <li><a href="about.html">About</a></li>
+  </ul>
+  <button class="nav-cart" onclick="location.href='cart.html'">🛒 CART (0)</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <p class="hero-eyebrow">⚡ New Season Drop — 2024 Pro Series</p>
+  <h1>GEAR UP.<br><span>DOMINATE.</span></h1>
+  <p>Elite peripherals engineered for competitive play. Every millisecond counts — make yours matter.</p>
+  <div class="hero-cta">
+    <a href="products2.html" class="btn-primary">Shop All Gear</a>
+    <a href="products2.html#featured" class="btn-ghost">View New Drops</a>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat">
+    <div class="stat-num">50K+</div>
+    <div class="stat-label">Pro Players</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">0.1ms</div>
+    <div class="stat-label">Response Time</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">200+</div>
+    <div class="stat-label">Products</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">4.9★</div>
+    <div class="stat-label">Avg Rating</div>
+  </div>
+</div>
+
+<!-- CATEGORIES -->
+<section class="section">
+  <div class="section-title">SHOP BY <span>CATEGORY</span></div>
+  <p class="section-sub">Click any category to explore the full lineup</p>
+  <div class="category-grid">
+    <a href="products2.html#mice" class="category-card">
+      <div class="cat-icon">🖱️</div>
+      <div class="cat-name">Gaming Mice</div>
+      <div class="cat-count">42 Products</div>
+    </a>
+    <a href="products2.html#keyboards" class="category-card">
+      <div class="cat-icon">⌨️</div>
+      <div class="cat-name">Keyboards</div>
+      <div class="cat-count">38 Products</div>
+    </a>
+    <a href="products2.html#headsets" class="category-card">
+      <div class="cat-icon">🎧</div>
+      <div class="cat-name">Headsets</div>
+      <div class="cat-count">29 Products</div>
+    </a>
+    <a href="products2.html#monitors" class="category-card">
+      <div class="cat-icon">🖥️</div>
+      <div class="cat-name">Monitors</div>
+      <div class="cat-count">21 Products</div>
+    </a>
+    <a href="products2.html#chairs" class="category-card">
+      <div class="cat-icon">🪑</div>
+      <div class="cat-name">Gaming Chairs</div>
+      <div class="cat-count">17 Products</div>
+    </a>
+    <a href="products2.html#controllers" class="category-card">
+      <div class="cat-icon">🎮</div>
+      <div class="cat-name">Controllers</div>
+      <div class="cat-count">25 Products</div>
+    </a>
+    <a href="products2.html#mousepads" class="category-card">
+      <div class="cat-icon">🟦</div>
+      <div class="cat-name">Mousepads</div>
+      <div class="cat-count">16 Products</div>
+    </a>
+    <a href="products2.html#webcams" class="category-card">
+      <div class="cat-icon">📷</div>
+      <div class="cat-name">Webcams</div>
+      <div class="cat-count">12 Products</div>
+    </a>
+  </div>
+</section>
+
+<!-- FEATURED PRODUCTS -->
+<section class="section" id="featured" style="padding-top:0">
+  <div class="section-title">FEATURED <span>DROPS</span></div>
+  <p class="section-sub">Hand-picked by our pro team this week</p>
+  <div class="product-grid">
+
+    <a href="product-detail.html?id=1" class="product-card">
+      <div class="product-img">
+        🖱️
+        <span class="badge badge-gold">BEST SELLER</span>
+      </div>
+      <div class="product-info">
+        <div class="product-brand">Nexus Pro</div>
+        <div class="product-name">Phantom X Elite Wireless Mouse</div>
+        <div class="stars">★★★★★ <span style="color:var(--muted)">(2,841)</span></div>
+        <div class="product-footer">
+          <div><span class="price-old">₹7,999</span><span class="price">₹5,499</span></div>
+          <button class="add-btn" onclick="event.preventDefault()">ADD</button>
+        </div>
+      </div>
+    </a>
+
+    <a href="product-detail.html?id=2" class="product-card">
+      <div class="product-img">
+        ⌨️
+        <span class="badge">NEW</span>
+      </div>
+      <div class="product-info">
+        <div class="product-brand">Nexus Pro</div>
+        <div class="product-name">Apex TKL Mechanical Keyboard RGB</div>
+        <div class="stars">★★★★★ <span style="color:var(--muted)">(1,204)</span></div>
+        <div class="product-footer">
+          <div><span class="price">₹8,999</span></div>
+          <button class="add-btn" onclick="event.preventDefault()">ADD</button>
+        </div>
+      </div>
+    </a>
+
+    <a href="product-detail.html?id=3" class="product-card">
+      <div class="product-img">
+        🎧
+        <span class="badge">HOT</span>
+      </div>
+      <div class="product-info">
+        <div class="product-brand">SoundForge</div>
+        <div class="product-name">Void 7.1 Surround Gaming Headset</div>
+        <div class="stars">★★★★☆ <span style="color:var(--muted)">(987)</span></div>
+        <div class="product-footer">
+          <div><span class="price-old">₹6,499</span><span class="price">₹4,299</span></div>
+          <button class="add-btn" onclick="event.preventDefault()">ADD</button>
+        </div>
+      </div>
+    </a>
+
+    <a href="product-detail.html?id=4" class="product-card">
+      <div class="product-img">
+        🖥️
+      </div>
+      <div class="product-info">
+        <div class="product-brand">ViewForce</div>
+        <div class="product-name">Rift 27" 240Hz IPS Gaming Monitor</div>
+        <div class="stars">★★★★★ <span style="color:var(--muted)">(632)</span></div>
+        <div class="product-footer">
+          <div><span class="price">₹32,999</span></div>
+          <button class="add-btn" onclick="event.preventDefault()">ADD</button>
+        </div>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- BANNER -->
+<div class="banner">
+  <div>
+    <div class="banner-title">PRO BUNDLE DEAL —<br><span>SAVE UP TO 40%</span></div>
+    <p>Get mouse + keyboard + headset together at a massive discount. Limited time. Limited stock.</p>
+  </div>
+  <a href="products2.html#bundles" class="btn-primary" style="white-space:nowrap">GRAB THE BUNDLE</a>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">
+    <a href="index.html" class="logo">NEXUS⚡GEAR</a>
+    <p>Elite gaming peripherals for players who play to win. Engineered for performance, built for the grind.</p>
+  </div>
+  <div class="footer-col">
+    <h4>Shop</h4>
+    <a href="products2.html#mice">Gaming Mice</a>
+    <a href="products2.html#keyboards">Keyboards</a>
+    <a href="products2.html#headsets">Headsets</a>
+    <a href="products2.html#monitors">Monitors</a>
+    <a href="products2.html#controllers">Controllers</a>
+  </div>
+  <div class="footer-col">
+    <h4>Company</h4>
+    <a href="about.html">About Us</a>
+    <a href="#">Blog</a>
+    <a href="#">Careers</a>
+    <a href="#">Press</a>
+  </div>
+  <div class="footer-col">
+    <h4>Support</h4>
+    <a href="#">Track Order</a>
+    <a href="#">Returns</a>
+    <a href="#">Warranty</a>
+    <a href="#">Contact</a>
+  </div>
+</footer>
+<div class="footer-bottom">© 2024 NEXUS GEAR. ALL RIGHTS RESERVED. BUILT FOR CHAMPIONS.</div>
+
+</body>
+</html>
